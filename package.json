@@ -1,0 +1,18 @@
+{
+  "name": "com.mbolufer.feedback",
+  "version": "1.0.0",
+  "displayName": "Feedback FX",
+  "description": "Composant de restitution (game feel) générique : un Feedback déclenché depuis n'importe quel script joue son, particules, timelines, animator, pulse procédural, shader global, pulse de post-process, camera shake et UnityEvent, pondérés par une vitesse d'impact. Inspecteur par catégories avec previews hors Play. Inclut ShaderManager (globales shader).",
+  "unity": "6000.0",
+  "author": {
+    "name": "Michael Bolufer"
+  },
+  "keywords": ["feedback", "game feel", "juice", "camera shake", "vfx", "audio"],
+  "dependencies": {
+    "com.unity.render-pipelines.core": "17.0.3",
+    "com.unity.modules.audio": "1.0.0",
+    "com.unity.modules.animation": "1.0.0",
+    "com.unity.modules.director": "1.0.0",
+    "com.unity.modules.particlesystem": "1.0.0"
+  }
+}
