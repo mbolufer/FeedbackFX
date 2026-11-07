@@ -84,12 +84,14 @@ namespace FeedbackFX
                 problem = f => f.shaderFloats == null || !f.shaderFloats.Any(s => s != null && s.IsValid)
                     ? "Aucune propriété shader renseignée." : null,
             },
+#if FEEDBACKFX_SRP
             new Category {
                 title = "Post Process (pulse de weight)", toggle = "useVolumePulse",
                 fields = new[] { "pulseVolume", "volumeFadeIn", "volumeFadeOut" },
                 summary = f => f.pulseVolume != null ? f.pulseVolume.name : "",
                 problem = f => f.pulseVolume == null ? "Aucun Volume assigné." : null,
             },
+#endif
             new Category {
                 title = "Camera Shake", toggle = "useCameraShake",
                 fields = new[] { "shakeCamera", "shakeMagnitude", "shakeDuration", "shakeFrequency" },

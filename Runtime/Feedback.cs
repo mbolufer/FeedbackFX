@@ -2,7 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
+#if FEEDBACKFX_SRP
+using UnityEngine.Rendering; // Volume : canal post-process, seulement avec URP / HDRP
+#endif
 
 namespace FeedbackFX
 {
@@ -166,8 +168,10 @@ namespace FeedbackFX
         // ── Post process (pulse de weight) ──────────────────────────────────────────
 
         public bool useVolumePulse;
+#if FEEDBACKFX_SRP
         [Tooltip("Volume post process dont le weight est animé 0 → poids → 0.")]
         public Volume pulseVolume;
+#endif
         [Range(0f, 2f), Tooltip("Durée de la montée du weight de 0 au poids, en secondes.")]
         public float volumeFadeIn = 0.15f;
         [Range(0f, 3f), Tooltip("Durée de la descente du weight vers 0, en secondes.")]
@@ -310,12 +314,14 @@ namespace FeedbackFX
                 _shaderRoutine = StartCoroutine(ShaderLerp());
             }
 
+#if FEEDBACKFX_SRP
             // Post process (pulse de weight)
             if (useVolumePulse && pulseVolume != null && isActiveAndEnabled)
             {
                 if (_volumeRoutine != null) StopCoroutine(_volumeRoutine);
                 _volumeRoutine = StartCoroutine(VolumePulse(w));
             }
+#endif
 
             // Camera shake
             if (useCameraShake && isActiveAndEnabled)
@@ -346,7 +352,9 @@ namespace FeedbackFX
                 if (useShaderGlobal && shaderFloats != null)
                     foreach (var sf in shaderFloats)
                         if (sf != null && sf.IsValid)  d = Mathf.Max(d, sf.lerpTime);
+#if FEEDBACKFX_SRP
                 if (useVolumePulse && pulseVolume != null) d = Mathf.Max(d, volumeFadeIn + volumeFadeOut);
+#endif
                 if (useCameraShake)                    d = Mathf.Max(d, shakeDuration);
                 if (useSound && clip != null)          d = Mathf.Max(d, clip.length);
                 return d;
@@ -483,6 +491,7 @@ namespace FeedbackFX
             else             Shader.SetGlobalFloat(name, value);
         }
 
+#if FEEDBACKFX_SRP
         IEnumerator VolumePulse(float weight)
         {
             float peak = Mathf.Clamp01(weight);
@@ -509,6 +518,7 @@ namespace FeedbackFX
             pulseVolume.weight = 0f;
             _volumeRoutine = null;
         }
+#endif
 
         IEnumerator CameraShake(Camera cam, float weight)
         {
@@ -570,7 +580,9 @@ namespace FeedbackFX
             {
                 StopCoroutine(_volumeRoutine);
                 _volumeRoutine = null;
+#if FEEDBACKFX_SRP
                 if (pulseVolume != null) pulseVolume.weight = 0f;
+#endif
             }
             RestoreShake();
         }

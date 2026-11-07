@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.0] - 2026-11-08
+- « Canal post-process facultatif : utilisable en Built-in, URP et HDRP (define FEEDBACKFX_SRP) »
+
 ## [1.0.0] - 2026-11-06
 Extraction depuis le projet Basket (Night Hooper 92).
 

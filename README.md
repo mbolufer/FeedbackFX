@@ -12,7 +12,13 @@ void OnHit(float impactSpeed) => hitFeedback.Play(impactSpeed); // pondéré par
 void OnScore()                => scoreFeedback.Play();           // poids = 1
 ```
 
-Prérequis : Unity 6, `com.unity.render-pipelines.core` (pour le canal post-process ; présent dans tout projet URP/HDRP).
+Prérequis : Unity 6. Fonctionne avec tous les pipelines (Built-in, URP, HDRP) : le canal **Post Process**
+n'apparaît que si `com.unity.render-pipelines.core` est installé (toujours le cas en URP / HDRP) — il est
+alors compilé grâce au define `FEEDBACKFX_SRP`.
+
+```
+https://github.com/mbolufer/FeedbackFX.git#v1.1.0
+```
 
 ```
 com.mbolufer.feedback/
@@ -45,7 +51,7 @@ Chaque canal s'active par sa case dans l'en-tête de sa catégorie (vert = actif
 | Événements | `UnityEvent<float>` appelé avec le poids : pour tout le reste (glitch VHS, vibration, script du jeu) | oui |
 | Pulse sinusoïdal | Oscillation amortie du scale, de la position ou de la rotation locale | oui |
 | Shader global | Lerp de floats globaux vers une valeur cible (passe par le ShaderManager s'il gère la propriété) | non |
-| Post Process | Weight d'un Volume 0 → poids → 0 | oui |
+| Post Process *(URP / HDRP)* | Weight d'un Volume 0 → poids → 0 | oui |
 | Camera Shake | Bruit Perlin sur la position locale de la caméra | oui |
 
 Les valeurs de repos (transform, caméra, weight) sont restaurées à la fin, sur `Stop()` et à la désactivation.
